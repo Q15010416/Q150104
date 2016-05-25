@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,16 +17,24 @@ import javax.swing.JTextField;
 public class MyFrame extends JFrame {
 	Vector empList=new Vector();
 	
-public MyFrame() throws HeadlessException {
-		super();
+MyFrame(){
+		super("HR管理系统");
 		
 		this.setTitle("HR管理系统");
 		this.setSize(700,320);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.readEmpFile();
+		this.showEmpPanel();
+		this.setVisible(true);
+
+		this.setResizable(false);
+		this.setSize(700,320);
+		this.setLocationRelativeTo(this.getOwner());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		
-		EmpPanel p1 = new EmpPanel();
-		this.add(p1);
+		
 		this.setVisible(true);
 	}
 	void readEmpFile(){
@@ -65,7 +75,9 @@ public MyFrame() throws HeadlessException {
 
 
 
-class EmpPanel extends JPanel{
+class EmpPanel extends JPanel implements ActionListener {
+ 
+
 	Vector empList=new Vector();
 	
 	private JTextField empNo=new JTextField();											//学号
@@ -75,8 +87,10 @@ class EmpPanel extends JPanel{
 	private JTextField empTelephone=new JTextField();
 	private JTextField depNo=new JTextField();
 	 
-	private String[] btnStr={"第一个","上一个","下一个","最后一个","删除","修改"};
+	private String[] btnStr={"第一个","上一个","下一个","最后一个","添加","修改","删除"};
 	private JButton[] btn =new JButton[btnStr.length];
+	int count=0,current=0,inserting=0;
+
 	
 	EmpPanel(){
 		this.setLayout(null);
@@ -120,6 +134,7 @@ class EmpPanel extends JPanel{
 		for(int i=0;i<btn.length;i++){
 			btn[i]=new JButton(btnStr[i]);
 			btn[i].setBounds(50+i*90, 250, 90, 30);
+			btn[i].addActionListener(this);
 			this.add(btn[i]);
 			
 		}
@@ -134,6 +149,104 @@ class EmpPanel extends JPanel{
 		this.empBirthday.setText(emp.getEmpBirthday());
 		this.depNo.setText(emp.getDepNo());
 		this.empTelephone.setText(emp.getEmpTelephone());
+		
 	}
 
+
+   public void actionPerformed(ActionEvent e) {
+	count=this.empList.size();
+	if(e.getSource()==this.btn[0]){
+		this.showEmployee(0);
+		current=0;
+	}
+	if(e.getSource()==this.btn[1] && current>0){
+		this.showEmployee(current-1);
+		current=current-1;
+	}
+	if(e.getSource()==this.btn[2] && current<count-1){
+		this.showEmployee(current+1);
+		current=current+1;
+	}
+	if(e.getSource()==this.btn[3]){
+		this.showEmployee(count-1);
+		current=count-1;
+	}
+	if(e.getSource()==this.btn[4]){
+		if(this.inserting==0){
+			this.empNo.setText("");
+			this.empName.setText("");
+			this.empSex.setText("");
+			this.empBirthday.setText("");
+			this.depNo.setText("");
+			this.empTelephone.setText("");
+			btn[4].setText("保存");
+			btn[5].setText("取消");
+			this.inserting=1;
+		}else{
+			Employee emp=new Employee();
+			emp.setEmpNo(this.empNo.getText().trim());
+			emp.setEmpName(this.empName.getText().trim());
+			emp.setEmpSex(this.empSex.getText().trim());
+			emp.setEmpBirthday(this.empBirthday.getText().trim());
+			emp.setDepNo(this.depNo.getText().trim());
+			emp.setEmpTelephone(this.empTelephone.getText().trim());
+			empList.add(emp);
+			count++;
+			current=count-1;
+			btn[4].setText("添加");
+			btn[5].setText("修改");
+			this.inserting=0;
+		}
+		for(int i=0;i<btn.length;i++){
+			if(i==4||i==5) continue;
+			btn[i].setEnabled(!btn[i].isEnabled());
+		}
+	}
+
+	if(e.getSource()==this.btn[5]){
+		if(this.inserting==0){
+          Employee emp= (Employee)empList.get(current);
+			emp.setEmpNo(this.empNo.getText().trim());
+			emp.setEmpName(this.empName.getText().trim());
+			emp.setEmpSex(this.empSex.getText().trim());
+			emp.setEmpBirthday(this.empBirthday.getText().trim());
+			emp.setDepNo(this.depNo.getText().trim());
+			emp.setEmpTelephone(this.empTelephone.getText().trim());
+			
+		}else{
+			btn[4].setText("添加");
+			btn[5].setText("修改");
+			for(int i=0;i<btn.length;i++){
+				if(i==4||i==5) continue;
+				btn[i].setEnabled(!btn[i].isEnabled());
+			}
+			this.inserting=0;
+			this.showEmployee(current);
+		}
+	}
+	if(e.getSource()==this.btn[6]){
+		if(count==0)
+			return;
+		empList.remove(current);
+		count--;
+		if(count==0){
+			this.empNo.setText("");
+			this.empName.setText("");
+			this.empSex.setText("");
+			this.empBirthday.setText("");
+			this.depNo.setText("");
+			this.empTelephone.setText("");
+		}else{
+			if(current>count-1){
+				this.showEmployee(current-1);
+				current=current-1;
+			}
+			else
+				this.showEmployee(current);
+		}
+	}
+	this.repaint();
 }
+}
+
+
