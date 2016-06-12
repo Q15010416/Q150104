@@ -53,3 +53,68 @@ class Employee{
 	}
 	
 }
+   class Attendance{
+	private String empNo;									//工号
+	private String depNo;									//部门代号
+	private double performance;								//业绩
+	private double time;									//出勤
+
+	
+	public String getEmpNo() {
+		return empNo;
+	}
+	public void setEmpNo(String empNo) {
+		this.empNo = empNo;
+	}
+	public String getDepNo() {
+		return depNo;
+	}
+	public void setDepNo(String depNo) {
+		this.depNo = depNo;
+	}
+	public double getPerformance() {
+		return performance;
+	}
+	public void setPerformance(double performance) {
+		this.performance =performance;
+	}
+	public double getTime() {
+		return time;
+	}
+	public void setTime(double time) {
+		this.time =time;
+	}
+	
+}
+
+class Department{
+	private String depNo;											//部门编号
+	private String depName;										   //部门名称
+	private String location;										//办公室位置
+	private String manager;											//部门负责人
+	
+	public String getDepNo() {
+		return depNo;
+	}
+	public void setDepNo(String depNo) {
+		this.depNo = depNo;
+	}
+	public String getDepName() {
+		return depName;
+	}
+	public void setDepName(String depName) {
+		this.depName = depName;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+}
