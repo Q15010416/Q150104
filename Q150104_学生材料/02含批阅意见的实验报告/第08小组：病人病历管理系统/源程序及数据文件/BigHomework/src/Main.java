@@ -1,11 +1,10 @@
 
 
-
 public class Main {
 
 	public static void main(String[] args) {
 		
-		MyFrame f = new MyFrame();
+		LoginFrame f = new LoginFrame();
 		f.setVisible(true);
 	}
 
@@ -14,11 +13,11 @@ public class Main {
 
 
 class Patient{
-	private String patientNo;				//编号
-	private String patientName;				//姓名
-	private String patientSex;				//性别
-	private String patientCard;			//身份证号
-	private String patientAge;				//年龄
+	private String patientNo;								//病人编号
+	private String patientName;								//病人姓名
+	private String patientSex;								//性别
+	private String patientCard;								//身份证号
+	private String patientAge;								//年龄
 	
 	public String getPatientNo() {
 		return patientNo;
@@ -53,12 +52,18 @@ class Patient{
 }
 
 class Case{
-	private String caseName;																							//疾病名称
-	private String drugs;																								//药品
-	private double money;																								//药品费用
-	private double days;																								//住院天数
-	private String operation;																							//病人手术安排
-	
+	private String patientNo;								//病人编号
+	private String doctorNo;								//医师编号
+	private String caseName;								//疾病名称
+	private String drugs;									//药品
+	private double money;									//药品费用
+	private double days;									//住院天数
+	public String getPatientNo() {
+		return patientNo;
+	}
+	public void setPatientNo(String patientNo) {
+		this.patientNo= patientNo;
+	}
 	public String getCaseName() {
 		return caseName;
 	}
@@ -83,18 +88,24 @@ class Case{
 	public void setDays(double days) {
 		this.days = days;
 	}
-    public String getOperation() {
-	    return operation;
+    public String getDoctorNo() {
+	    return doctorNo;
     }
-    public void setOperation(String operation) {
-	    this.operation = operation;
+    public void setDoctorNo(String doctorNo) {
+	    this.doctorNo = doctorNo;
     }
 }
-class Doctor{ 
-	private String doctorName;																							//医师姓名
-	private String doctorSection;																						//所属科室
-	private String doctorOffice;																						//办公室
-	
+class Doctor{
+	private String doctorNo;								//医师编号
+	private String doctorName;								//医师姓名
+	private String doctorSection;							//所属科室
+	private String doctorOffice;							//办公室
+	public void setDoctorNo(String doctorNo) {
+		this.doctorNo = doctorNo;
+	}
+	public String getDoctorNo() {
+		return doctorNo;
+	}
 	public String getDoctorName() {
 		return doctorName;
 	}
